@@ -1,0 +1,19 @@
+Options -Indexes
+
+RewriteEngine On
+
+# Prevent infinite loops by stopping rewrites if the request is already for block.html
+RewriteCond %{REQUEST_URI} !^/block.html$
+
+# Rewrite block URL to block.html with query parameter
+RewriteRule ^block/([^/]+)$ block.html?hash=$1 [L,QSA]
+RewriteRule ^tx/([^/]+)$ tx.html?hash=$1 [L,QSA]
+
+# Check for .html only if it's not already being rewritten
+RewriteCond %{REQUEST_URI} !\.html$
+RewriteCond %{REQUEST_FILENAME}.html -f
+RewriteRule ^(.*)$ $1.html [L]
+
+# Check for .php
+RewriteCond %{REQUEST_FILENAME}.php -f
+RewriteRule ^(.*)$ $1.php [L]

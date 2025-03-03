@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lunify - TX</title>
+
+  <link href="/img/logo.png" rel="shortcut icon" type="image/x-icon">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer">
+
+  <link href="/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/css/style.css" rel="stylesheet">
+</head>
+
+<body>
+  <header data-bs-theme="dark">
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark ps-4 pe-4">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="/">
+          <img src="/img/logo_with_text.svg">
+        </a>
+      </div>
+    </nav>
+  </header>
+
+  <main class="more">
+    <div class="container">
+      
+      <div class="input-group mb-3">
+        <input type="text" class="form-control" id="searchBar" placeholder="Height, Transaction or Block Hash...">
+        <button class="btn btn-theme" onclick="searchBlockTX()" type="button" id="button-addon2"><i class="fas fa-search"></i></button>
+      </div>
+      
+      <div class="mt-50 transparantCard">
+        <h5 class="mb-4"><i class="fas fa-receipt"></i>&nbsp;&nbsp;&nbsp;TX&nbsp;&nbsp;&nbsp;<span class="fw-600 word-break" id="txHash">-</span></h5>
+
+        <div class="informationUnit">
+          <div class="row" style="font-size: 13px;">
+            <div class="col-12 col-md-4">
+              <div class="informationTable">
+                <div class="infoItem">
+                  <span><i class="fas fa-cubes"></i> Height</span>
+                  <span id="txHeight">-</span>
+                </div>
+                <div class="infoItem">
+                  <span><i class="fas fa-check"></i> Confirmations</span>
+                  <span id="txConfirmations">-</span>
+                </div>
+                <div class="infoItem">
+                  <span><i class="fas fa-clock"></i> Timestamp</span>
+                  <span id="txTimestamp">-</span>
+                </div>
+              </div>
+            </div>
+            <div class="col-12 col-md-4">
+              <div class="informationTable">
+                <div class="infoItem">
+                  <span><i class="fas fa-coins"></i> Total Output</span>
+                  <span id="txSumOutputs">-</span>
+                </div>
+                <div class="infoItem">
+                  <span><i class="fas fa-coins"></i> Fee</span>
+                  <span id="txFee">-</span>
+                </div>
+                <div class="infoItem">
+                  <span><i class="fas fa-blender"></i> Mixins</span>
+                  <span id="txRingSize">-</span>
+                </div>
+              </div>
+            </div>
+            <div class="col-12 col-md-4">
+              <div class="informationTable">
+                <div class="infoItem">
+                  <span><i class="fas fa-hdd"></i> Size</span>
+                  <span id="txSizee">-</span>
+                </div>
+                <div class="infoItem">
+                  <span><i class="fas fa-unlock"></i> Unlocked</span>
+                  <span id="txUnlocked">-</span>
+                </div>
+                <div class="infoItem">
+                  <span><i class="fas fa-cube"></i> Coinbase</span>
+                  <span id="txCoinbase">-</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div style="display: flex; flex-direction: column; font-size: 13px;">
+            <span style="padding-top: 3px; margin-bottom: 3px; padding-bottom: 2px; border-bottom: 1px solid gray; border-top: 1px solid gray;">
+              <i class="fas fa-hashtag"></i> Extra:&nbsp;<span style="word-break: break-all;" id="txExtra">-</span>
+            </span>
+            <span style="margin-bottom: 3px; padding-bottom: 2px; ">
+              <i class="fas fa-fingerprint"></i> Payment ID: <span style="word-break: break-all;" id="txPID">-</span>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-50">
+        <div class="transparantCard">
+          <h5 class="mb-4"><i class="fas fa-receipt"></i> Inputs (<span id="txInputs">-</span>)</h5>
+
+          <table class="table">
+            <thead>
+              <tr>
+                <th></th>
+                <th>Amount</th>
+                <th>Key Image</th>
+              </tr>
+            </thead>
+            <tbody class="noBorder" id="txVins"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="mt-50">
+        <div class="transparantCard">
+          <h5 class="mb-4"><i class="fas fa-receipt"></i> Outputs (<span id="txOuputs">-</span>)</h5>
+          
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Amount</th>
+                <th>Public Key</th>
+              </tr>
+            </thead>
+            <tbody id="txVouts"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="mt-50 mb-5">
+        <h5 class="mb-4"><i class="far fa-chart-bar"></i> Network statistics</h5>
+
+        <div class="row p-0 fs-13">
+          <div class="col-12 col-md-4">
+            <div class="transparantCard h-100">
+              <span class="fw-600">Network</span>
+              <hr class="margin-13-0">
+              <div class="lh-22">
+                <div class="d-flex justify-content-between">
+                  <span><i class="fas fa-cubes"></i> Block height:</span>
+                  <span id="blockHeight" class="fw-600">-</span>
+                </div>
+                <div class="d-flex justify-content-between">
+                  <span><i class="fas fa-square-root-alt"></i> Difficulty:</span>
+                  <span id="difficulty" class="fw-600">-</span>
+                </div>
+                <div class="d-flex justify-content-between">
+                  <span><i class="fas fa-tachometer-alt"></i> Hashrate:</span>
+                  <span id="hashrate" class="fw-600">-</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-md-4 mt-4 mt-md-0">
+            <div class="transparantCard h-100">
+              <span class="fw-600">Transactions</span>
+              <hr class="margin-13-0">
+              <div class="lh-22">
+                <div class="d-flex justify-content-between">
+                  <span><i class="fas fa-receipt"></i> Count:</span>
+                  <span id="txCount" class="fw-600">-</span>
+                </div>
+                <div class="d-flex justify-content-between">
+                  <span><i class="fas fa-receipt"></i> Pool size:</span>
+                  <span id="txPoolSize" class="fw-600">-</span>
+                </div>
+                <div class="d-flex justify-content-between">
+                  <span><i class="fas fa-hdd"></i> Transaction size:</span>
+                  <span id="txSize" class="fw-600">-</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-md-4 mt-4 mt-md-0">
+            <div class="transparantCard h-100">
+              <span class="fw-600">Connections</span>
+              <hr class="margin-13-0">
+              <div class="lh-22">
+                <div class="d-flex justify-content-between">
+                  <span><i class="fas fa-download"></i> Incoming connections:</span>
+                  <span id="conIn" class="fw-600">-</span>
+                </div>
+                <div class="d-flex justify-content-between">
+                  <span><i class="fas fa-upload"></i> Outgoing connections:</span>
+                  <span id="conOut" class="fw-600">-</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <script src="/js/bootstrap.bundle.min.js"></script>
+  <script src="/js/moment.js"></script>
+  <script src="/js/config.js"></script>
+  <script src="/js/doms.js"></script>
+  <script src="/js/utils.js"></script>
+
+  <script src="/js/core.js"></script>
+  <script src="/js/search.js"></script>
+  <script src="/js/statistics.js"></script>
+  <script src="/js/tx.js"></script>
+</body>
+</html>

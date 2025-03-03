@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lunify - Block Explorer</title>
+
+  <link href="/img/logo.png" rel="shortcut icon" type="image/x-icon">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer">
+
+  <link href="/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/css/style.css" rel="stylesheet">
+</head>
+
+<body>
+  <header data-bs-theme="dark">
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark ps-4 pe-4">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="/">
+          <img src="/img/logo_with_text.svg">
+        </a>
+      </div>
+    </nav>
+  </header>
+
+  <main class="more">
+    <div class="container">
+      
+      <div class="input-group mb-3">
+        <input type="text" class="form-control" id="searchBar" placeholder="Height, Transaction or Block Hash...">
+        <button class="btn btn-theme" onclick="searchBlockTX()" type="button" id="button-addon2"><i class="fas fa-search"></i></button>
+      </div>
+      
+      <div class="mt-50">
+        <h5 class="mb-4"><i class="far fa-chart-bar"></i> Network statistics</h5>
+
+        <div class="row p-0 fs-13">
+          <div class="col-12 col-md-4">
+            <div class="transparantCard h-100">
+              <span class="fw-600">Network</span>
+              <hr class="margin-13-0">
+              <div class="lh-22">
+                <div class="d-flex justify-content-between">
+                  <span><i class="fas fa-cubes"></i> Block height:</span>
+                  <span id="blockHeight" class="fw-600">-</span>
+                </div>
+                <div class="d-flex justify-content-between">
+                  <span><i class="fas fa-square-root-alt"></i> Difficulty:</span>
+                  <span id="difficulty" class="fw-600">-</span>
+                </div>
+                <div class="d-flex justify-content-between">
+                  <span><i class="fas fa-tachometer-alt"></i> Hashrate:</span>
+                  <span id="hashrate" class="fw-600">-</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-md-4 mt-4 mt-md-0">
+            <div class="transparantCard h-100">
+              <span class="fw-600">Transactions</span>
+              <hr class="margin-13-0">
+              <div class="lh-22">
+                <div class="d-flex justify-content-between">
+                  <span><i class="fas fa-receipt"></i> Count:</span>
+                  <span id="txCount" class="fw-600">-</span>
+                </div>
+                <div class="d-flex justify-content-between">
+                  <span><i class="fas fa-receipt"></i> Pool size:</span>
+                  <span id="txPoolSize" class="fw-600">-</span>
+                </div>
+                <div class="d-flex justify-content-between">
+                  <span><i class="fas fa-hdd"></i> Transaction size:</span>
+                  <span id="txSize" class="fw-600">-</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-md-4 mt-4 mt-md-0">
+            <div class="transparantCard h-100">
+              <span class="fw-600">Connections</span>
+              <hr class="margin-13-0">
+              <div class="lh-22">
+                <div class="d-flex justify-content-between">
+                  <span><i class="fas fa-download"></i> Incoming connections:</span>
+                  <span id="conIn" class="fw-600">-</span>
+                </div>
+                <div class="d-flex justify-content-between">
+                  <span><i class="fas fa-upload"></i> Outgoing connections:</span>
+                  <span id="conOut" class="fw-600">-</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-50 transparantCard">
+        <h5 class="mb-4"><i class="fas fa-swimming-pool"></i> Transaction Pool</h5>
+
+        <div class="table-responsive">
+          <table class="table">
+            <thead id="poolThead"></thead>
+            <tbody id="poolTbody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="mt-50 transparantCard">
+        <h5 class="mb-4"><i class="fas fa-cube"></i> Current block</h5>
+
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th><i class="fas fa-hashtag"></i> Block hash</th>
+                <th><i class="fas fa-cubes"></i> Height</th>
+                <th><i class="fas fa-medal"></i> Mining Reward</th>
+                <th><i class="fas fa-square-root-alt"></i> Difficulty</th>
+                <th><i class="fas fa-clock"></i> Time</th>
+                <th class="text-end"><i class="fas fa-receipt"></i> TX</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th id="cbHash">-</th>
+                <th id="cbHeight">-</th>
+                <th id="cbReward">-</th>
+                <th id="cbDifficulty">-</th>
+                <th id="cbTime">-</th>
+                <th id="cbTX" class="text-end">-</th>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="table-responsive">
+          <table class="table" style="margin-top:34px;">
+            <thead id="cbTxsThead"></thead>
+            <tbody id="cbTxsTbody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="mt-50 transparantCard mb-5">
+        <h5 class="mb-4"><i class="fas fa-history"></i> Latest 10 block</h5>
+
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th><i class="fas fa-hashtag"></i> Block hash</th>
+                <th><i class="fas fa-cube"></i> Block</th>
+                <th><i class="fas fa-medal"></i> Mining Reward</th>
+                <th><i class="fas fa-square-root-alt"></i> Difficulty</th>
+                <th><i class="fas fa-clock"></i> Time</th>
+                <th class="text-end"><i class="fas fa-receipt"></i> TX</th>
+              </tr>
+            </thead>
+            <tbody id="last10Blocks"></tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <script src="/js/bootstrap.bundle.min.js"></script>
+  <script src="/js/moment.js"></script>
+  <script src="/js/config.js"></script>
+  <script src="/js/doms.js"></script>
+  <script src="/js/utils.js"></script>
+
+  <script src="/js/core.js"></script>
+  <script src="/js/search.js"></script>
+  <script src="/js/statistics.js"></script>
+  <script src="/js/index.js"></script>
+</body>
+</html>
