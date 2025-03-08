@@ -22,7 +22,21 @@ function readableBytes(bytes, decimals = 2) {
   return `${(bytes / Math.pow(1024, i)).toFixed(decimals)} ${sizes[i]}`;
 }
 
-// TODO
 function generatedCoins(height) {
-  return 129;
+  let halvings = Math.floor(height / config.halving_blocks);
+  let totalCoins = 0;
+
+  // Add all halvings
+  let blockReward = (config.initial_reward / (2 ** halvings)).toFixed(8);
+  for(let i = 0; i < halvings; i++) {
+    console.log("TRIGGER")
+    blockReward = (config.initial_reward / (2 ** i)).toFixed(8);
+    totalCoins += blockReward * config.halving_blocks;
+  }
+
+  // Add the rest
+  let restBlocks = (height - (halvings * config.halving_blocks));
+  totalCoins += blockReward * restBlocks
+
+  return totalCoins + config.premine_amount;
 }

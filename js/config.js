@@ -5,5 +5,7 @@ let config = {
   decimals: 8,
   ticker: "LFI",
   unlock_block: 20,
-  premine_amount: 500000,
+  premine_amount: 200000,
+  halving_blocks: 259200,
+  initial_reward: 8,
 };
