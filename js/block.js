@@ -38,7 +38,6 @@ async function goToBlock(height) {
         // Coinbase Transaction
         let coinbaseTxData = await api(`/block/${getBlock.block_header.hash}`);
         coinbaseTxData = coinbaseTxData.data;
-        console.log(coinbaseTxData)
         for(let i = 0; i < coinbaseTxData.txs.length; i++) {
           if(coinbaseTxData.txs[i].coinbase == true) {
             doms.cbTxsTbodyCoinbase.innerHTML = `

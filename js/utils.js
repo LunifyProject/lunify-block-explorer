@@ -29,7 +29,6 @@ function generatedCoins(height) {
   // Add all halvings
   let blockReward = (config.initial_reward / (2 ** halvings)).toFixed(8);
   for(let i = 0; i < halvings; i++) {
-    console.log("TRIGGER")
     blockReward = (config.initial_reward / (2 ** i)).toFixed(8);
     totalCoins += blockReward * config.halving_blocks;
   }
