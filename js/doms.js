@@ -4,6 +4,7 @@ let doms = {
   blockHeight: document.getElementById('blockHeight'),
   difficulty: document.getElementById('difficulty'),
   hashrate: document.getElementById('hashrate'),
+  generatedCoins: document.getElementById('generatedCoins'),
   txCount: document.getElementById('txCount'),
   txPoolSize: document.getElementById('txPoolSize'),
   txSize: document.getElementById('txSize'),

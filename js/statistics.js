@@ -3,6 +3,7 @@ let currentHeight = 0;
 async function getInfo() {
   let infoData = await api('/networkinfo');
   let poolData = await api('/mempool');
+  let generatedCoinsData = await fetchData({ method: 'get_miner_data' });
   infoData = infoData.data;
   poolData = poolData.data;
 
@@ -19,6 +20,7 @@ async function getInfo() {
   doms.blockHeight.innerHTML = infoData.height.toLocaleString('en-us');
   doms.difficulty.innerHTML = infoData.difficulty.toLocaleString('en-us');
   doms.hashrate.innerHTML = readableHashrate(hashrateVal) + '/s';
+  doms.generatedCoins.innerHTML = `${parseFloat(generatedCoinsData.result.already_generated_coins / (10**config.decimals)).toLocaleString('en-us', { minimumFractionDigits: 0, maximumFractionDigits: 8 })} ${config.ticker}`;
   doms.txCount.innerHTML = infoData.tx_count.toLocaleString('en-us');
   doms.txPoolSize.innerHTML = infoData.tx_pool_size.toLocaleString('en-us');
   doms.txSize.innerHTML = readableBytes(totalTxPoolSize);
